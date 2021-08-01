@@ -4,16 +4,19 @@ class List {
     constructor(name) {
         this.name = name;
     }
+
     // ======= CREATE =======
 
     createItem(item) {
         this.list.push(item);
     }
+
     // ======= FIND INDEX ========
 
     itemIndex(item) {
         return this.list.findIndex(el => el === item);
     }
+
     // ======= DELETE =======
 
     deleteItem(item) {
@@ -23,6 +26,7 @@ class List {
         return this.list;
         // добавь проверку на -1 => нечего удалять
     }
+
     // ======= EDIT =======
 
     editItem(item, editedItem) {
@@ -66,6 +70,7 @@ class ToDoList extends List {
         super.deleteItem(itemToDelete);
         return this.list;
     }
+
     // ======= EDIT =======
 
     editItem(item, editedText) {
@@ -75,6 +80,7 @@ class ToDoList extends List {
         newItem.text = editedText;
         super.editItem(itemToEdit, newItem);
     }
+
     // ======= Changing a status =======
 
     changeStatus(item) {
