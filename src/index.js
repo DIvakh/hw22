@@ -65,7 +65,7 @@ class ToDoList extends List {
     // ======= CHANGING A STATUS =======
 
     changeStatus(item) {
-        const ItemToComplete = super.searchedItem(item);
+        const ItemToComplete = this.list[super.searchedIndex(item)];
         if (!ItemToComplete.status) {
             ItemToComplete.status = true;
         } else {
@@ -87,8 +87,8 @@ ololo.createItem('Сделать 22-ое домашнее задание');
 // ololo.createItem('Завтракать надо');
 // ololo.createItem('Пойти на работу');
 // ololo.createItem('Отдохнуть');
-// // console.log(ololo.getStatistics());
-// // ololo.deleteItem('Пойти на работу');
+// console.log(ololo.getStatistics());
+// // // ololo.deleteItem('Пойти на работу');
 // console.log(ololo.list);
 
 class ContactList extends List {
