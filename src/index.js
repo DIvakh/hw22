@@ -5,35 +5,40 @@ class List {
         this.name = name;
     }
 
-    // ======= CREATE =======
+    // ======= CREATE ITEM =======
 
     createItem(item) {
-        this.list.push(item);
-    }
-
-    // ======= FIND INDEX ========
-
-    itemIndex(item) {
-        return this.list.findIndex(el => el === item);
+        if (typeof item === 'object') {
+            this.list.push(item);
+        } else {
+            this.list.push({ text: item, id: Date.now() });
+        }
     }
 
     // ======= DELETE =======
 
     deleteItem(item) {
         const deleteCount = 1;
-        const index = this.itemIndex(item);
+        const index = this.searchedIndex(item);
         this.list.splice(index, deleteCount);
         return this.list;
         // добавь проверку на -1 => нечего удалять
     }
 
-    // ======= EDIT =======
+    // ======= EDIT ITEM =======
 
     editItem(item, editedItem) {
-        const index = this.itemIndex(item);
-        this.list[index] = editedItem;
+        const index = this.searchedIndex(item);
+        this.list[index].text = editedItem;
         return this.list;
         // добавь проверку на -1 => нечего редактировать
+    }
+
+    // ======= FIND ITEM'S INDEX ========
+
+    searchedIndex(item) {
+        const searchedItem = this.list.find(el => el.text === item || el.id === +item || el.name === item);
+        return this.list.indexOf(searchedItem);
     }
 }
 
@@ -41,12 +46,12 @@ class List {
 // ololo.createItem('one');
 // ololo.createItem('two');
 // ololo.createItem('three');
+// ololo.deleteItem('two');
 // console.log(ololo.list);
-// console.log(ololo.deleteItem('two'));
-// console.log(ololo.editItem('two', 'five'));
+// // console.log(ololo.editItem('two', 'five'));
 
 class ToDoList extends List {
-    // ======== CREATE =======
+    // ======== CREATE TODO ITEM =======
 
     createItem(text, id = Date.now()) {
         const newItem = {
@@ -57,34 +62,10 @@ class ToDoList extends List {
         super.createItem(newItem);
     }
 
-    // ======= SEARCH =======
-
-    searchedItem(item) {
-        return this.list.find(el => el.text === item || el.id === item);
-    }
-
-    // ======= DELETE =======
-
-    deleteItem(item) {
-        const itemToDelete = this.searchedItem(item);
-        super.deleteItem(itemToDelete);
-        return this.list;
-    }
-
-    // ======= EDIT =======
-
-    editItem(item, editedText) {
-        const itemToEdit = this.searchedItem(item);
-
-        const newItem = itemToEdit;
-        newItem.text = editedText;
-        super.editItem(itemToEdit, newItem);
-    }
-
-    // ======= Changing a status =======
+    // ======= CHANGING A STATUS =======
 
     changeStatus(item) {
-        const ItemToComplete = this.searchedItem(item);
+        const ItemToComplete = super.searchedItem(item);
         if (!ItemToComplete.status) {
             ItemToComplete.status = true;
         } else {
@@ -97,14 +78,40 @@ class ToDoList extends List {
     getStatistics() {
         const total = this.list.length;
         const completed = this.list.filter(el => el.status).length;
-        return `Total:${total}, Completed:${completed}`;
+        return `Total: ${total}; Completed: ${completed}`;
     }
 }
 
 const ololo = new ToDoList();
 ololo.createItem('Сделать 22-ое домашнее задание');
-ololo.createItem('Завтракать надо');
-ololo.createItem('Пойти на работу');
-ololo.createItem('Отдохнуть');
-
+// ololo.createItem('Завтракать надо');
+// ololo.createItem('Пойти на работу');
+// ololo.createItem('Отдохнуть');
+// // console.log(ololo.getStatistics());
+// // ololo.deleteItem('Пойти на работу');
 // console.log(ololo.list);
+
+class ContactList extends List {
+    createItem(name, surname, phoneNum) {
+        const newItem = {
+            name,
+            surname,
+            phoneNum,
+            id: Date.now(),
+        };
+        super.createItem(newItem);
+    }
+
+    searchItem(data) {
+        return this.list.find(
+            el => el.name === data || el.surname === data || el.phoneNum === +data || el.id === +data
+        );
+    }
+}
+
+const phone = new ContactList();
+phone.createItem('Marty', 'McFly', Date.now());
+// phone.createItem('Vasya', 'Pupkin', 58848488);
+// phone.createItem('Emmeth', 'Brown', 70431105);
+// phone.deleteItem('Vasya');
+// console.log(phone.list)
