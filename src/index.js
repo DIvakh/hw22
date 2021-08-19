@@ -1,6 +1,7 @@
+/* eslint-disable */
 class List {
     list = [];
-
+    i = 1000;
     constructor(name) {
         this.name = name;
     }
@@ -10,16 +11,17 @@ class List {
     createItem(item) {
         if (typeof item === 'object') {
             this.list.push(item);
+            item.id = this.i++;
         } else {
-            this.list.push({ text: item, id: Date.now() });
+            this.list.push({ text: item, id: this.i++ });
         }
     }
 
     // ======= DELETE =======
 
-    deleteItem(item) {
+    deleteItem(id) {
         const deleteCount = 1;
-        const index = this.searchedIndex(item);
+        const index = this.searchedIndex(id);
         this.list.splice(index, deleteCount);
         return this.list;
         // добавь проверку на -1 => нечего удалять
@@ -27,18 +29,20 @@ class List {
 
     // ======= EDIT ITEM =======
 
-    editItem(item, editedItem) {
-        const index = this.searchedIndex(item);
-        this.list[index].text = editedItem;
+    editItem(id, editedItem) {
+        const index = this.searchedIndex(id);
+        if (typeof editedItem === 'object') {
+            this.list[index] = { ...this.list[index], ...editedItem };
+        } else {
+            this.list[index].text = editedItem;
+        }
         return this.list;
-        // добавь проверку на -1 => нечего редактировать
     }
 
-    // ======= FIND ITEM'S INDEX ========
+    // ======= FIND ITEM BY ID ========
 
-    searchedIndex(item) {
-        const searchedItem = this.list.find(el => el.text === item || el.id === +item || el.name === item);
-        return this.list.indexOf(searchedItem);
+    searchedIndex(id) {
+        return this.list.findIndex(el => el.id === +id);
     }
 }
 
@@ -46,14 +50,14 @@ class List {
 // ololo.createItem('one');
 // ololo.createItem('two');
 // ololo.createItem('three');
-// ololo.deleteItem('two');
+// // ololo.deleteItem('1001');
+// ololo.editItem('1001', 'five');
 // console.log(ololo.list);
-// // console.log(ololo.editItem('two', 'five'));
 
 class ToDoList extends List {
     // ======== CREATE TODO ITEM =======
 
-    createItem(text, id = Date.now()) {
+    createItem(text, id = this.i++) {
         const newItem = {
             text,
             id,
@@ -82,36 +86,44 @@ class ToDoList extends List {
     }
 }
 
-const ololo = new ToDoList();
-ololo.createItem('Сделать 22-ое домашнее задание');
+// const ololo = new ToDoList();
+// ololo.createItem('Сделать 22-ое домашнее задание');
 // ololo.createItem('Завтракать надо');
 // ololo.createItem('Пойти на работу');
 // ololo.createItem('Отдохнуть');
 // console.log(ololo.getStatistics());
-// // // ololo.deleteItem('Пойти на работу');
+// ololo.editItem('1002', 'Покакац');
 // console.log(ololo.list);
 
 class ContactList extends List {
-    createItem(name, surname, phoneNum) {
-        const newItem = {
-            name,
-            surname,
-            phoneNum,
-            id: Date.now(),
-        };
-        super.createItem(newItem);
-    }
+    // createItem(name, surname, phoneNum) {
+    //     const newItem = {
+    //         name,
+    //         surname,
+    //         phoneNum,
+    //         id: this.i++,
+    //     };
+    //     super.createItem(newItem);
+    // }
 
     searchItem(data) {
-        return this.list.find(
-            el => el.name === data || el.surname === data || el.phoneNum === +data || el.id === +data
+        const lowerCaseData = data.toString().toLowerCase();
+        return this.list.filter(
+            el =>
+                el.name.toLowerCase().includes(lowerCaseData) ||
+                el.surname.toLowerCase().includes(lowerCaseData) ||
+                el.phoneNum.toString().includes(lowerCaseData) ||
+                el.id.toString().includes(lowerCaseData)
         );
     }
 }
 
 const phone = new ContactList();
-phone.createItem('Marty', 'McFly', Date.now());
+phone.createItem({ name: 'Vasya', surname: 'Vasechkin', phone: 380632234513 });
+
+// phone.createItem('Marty', 'McFly', 432435345);
 // phone.createItem('Vasya', 'Pupkin', 58848488);
 // phone.createItem('Emmeth', 'Brown', 70431105);
-// phone.deleteItem('Vasya');
-// console.log(phone.list)
+// phone.deleteItem('1001');
+console.log(phone.list);
+// // console.log(phone.searchItem('mar'));
