@@ -26,7 +26,9 @@ class List {
 
     editItem(id, editedItem) {
         const index = this.searchedIndex(id);
-        this.list[index] = { ...this.list[index], ...editedItem };
+        if (this.isUnique(editedItem)) {
+            this.list[index] = { ...this.list[index], ...editedItem };
+        }
         return this.list;
     }
 
@@ -35,22 +37,25 @@ class List {
     searchedIndex(id) {
         return this.list.findIndex(el => el.id === +id);
     }
-}
 
-// const ololo = new List();
-// ololo.createItem({ text: 'one' });
-// ololo.createItem({ text: 'two' });
-// ololo.createItem({ text: 'three' });
-// // // ololo.deleteItem('1001');
-// // // ololo.editItem('1001', { text: 'five' });
-// console.log(ololo.list);
+    // ======= ISUNIQUE =======
+    isUnique(text) {
+        const item = this.list.find(el => el.text === text);
+        return !item;
+    }
+}
 
 class ToDoList extends List {
     // ======== CREATE TODO ITEM =======
 
-    createItem(item) {
-        item.status = false;
-        super.createItem(item);
+    createItem(text) {
+        const item = {
+            text,
+            status: false,
+        };
+        if (super.isUnique(text)) {
+            super.createItem(item);
+        } else throw new Error('This item is already exists');
     }
 
     // ======= CHANGING A STATUS =======
@@ -73,16 +78,6 @@ class ToDoList extends List {
     }
 }
 
-// const ololo = new ToDoList();
-// ololo.createItem({ text: 'Сделать 22-ое домашнее задание' });
-// ololo.createItem({ text: 'Завтракать надо' });
-// ololo.createItem({ text: 'Пойти на работу' });
-// ololo.createItem({ text: 'Отдохнуть' });
-// ololo.editItem('1002', { text: 'Покакац' });
-// ololo.changeStatus('1002');
-// console.log(ololo.getStatistics());
-// console.log(ololo.list);
-
 class ContactList extends List {
     searchItem(data) {
         const lowerCaseData = data.toString().toLowerCase();
@@ -96,12 +91,10 @@ class ContactList extends List {
     }
 }
 
-// const phone = new ContactList();
-// phone.createItem({ name: 'Marty', surname: 'McFly', phone: 58848488 });
-// phone.createItem({ name: 'Vasya', surname: 'Vasechkin', phone: 380632234513 });
-// phone.createItem({ name: 'Emmeth', surname: 'Brown', phone: 70431105 });
-// phone.createItem({ name: 'Maria', surname: 'Grande', phone: 49849848494 });
-// // phone.editItem(1001, { gender: 'unknown' });
-// // phone.deleteItem('1001');
-// console.log(phone.list);
-// // console.log(phone.searchItem('mar'));
+// class toDoListDisplay {
+//     constructor() {
+//         this toDo = new ToDoList();
+//     }
+// }
+
+// toDoListDisplay();
