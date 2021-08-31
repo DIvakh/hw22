@@ -1,1 +1,132 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+body {
+    background: linear-gradient(90deg, #b9deed, #efefef);
+}
 
+ul {
+    padding: 0;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.233);
+}
+
+li {
+    margin-top: 15px;
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+}
+span {
+    margin-right: auto;
+    user-select: none;
+    font-family: sans-serif;
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.toDoWrapper {
+    margin: 0 auto;
+    margin-top: 20px;
+    height: 100%;
+    width: 320px;
+}
+
+.check {
+    margin-right: 5px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.fas {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+li button:not(.editConfirm),
+dt button {
+    height: 25px;
+    margin: auto 10px;
+    position: relative;
+    background: none;
+    border: none;
+}
+
+.addForm {
+    width: 70%;
+}
+.addBtn {
+    width: 28%;
+}
+
+h5 {
+    width: 100%;
+    margin-bottom: 15px;
+    font-family: Verdana;
+    font-weight: 500;
+    text-align: center;
+    font-size: 1.2rem;
+    background: linear-gradient(90deg, #cfecd0c5, #a0cea7c0, #9ec0dbaf);
+
+    box-shadow: 0px 1px 7px #9ec0db;
+}
+.editConfirm {
+    margin-left: 5px;
+}
+.statistics {
+    width: 100%;
+    padding-left: 15px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.233);
+    font-weight: 600;
+    margin-top: 10px;
+    color: rgb(82, 82, 82);
+}
+.container {
+    display: flex;
+    max-width: 1170px;
+    margin: 0 auto;
+}
+.contactWrapper {
+    margin: 0 auto;
+    width: 320px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.contactList li {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+h6 {
+    width: 100%;
+    font-size: 1.2rem;
+}
+.contactData {
+    margin-right: auto;
+    text-align: left;
+}
+
+.addContact {
+    margin-top: 5px;
+    width: 100%;
+}
+.addName {
+    margin: 0;
+}
+.addContactBtn {
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+.searchbox {
+    margin-top: 20px;
+}
+.searchHeader {
+    font-size: 0.95rem;
+}
