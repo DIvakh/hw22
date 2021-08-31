@@ -48,8 +48,7 @@ span {
     cursor: pointer;
 }
 
-li button:not(.editConfirm),
-dt button {
+li button:not(.editConfirm) {
     height: 25px;
     margin: auto 10px;
     position: relative;
