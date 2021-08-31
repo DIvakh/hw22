@@ -1,4 +1,3 @@
-/* eslint-disable */
 class List {
     list = [];
     constructor(name) {
@@ -16,9 +15,10 @@ class List {
 
     deleteItem(id) {
         const deleteCount = 1;
+        const notExist = -1;
         const index = this.searchedIndex(id);
         this.list.splice(index, deleteCount);
-        if (index === -1) throw new Error('Nothing to delete');
+        if (index === notExist) throw new Error('Nothing to delete');
         return this.list;
     }
 
@@ -291,9 +291,18 @@ class ContactListDisplay {
         const $searchField = document.querySelector('.searchField');
 
         $searchForm.addEventListener('submit', e => {
+            const totalList = this.contact.list;
+            const $showAll = document.querySelector('.showAll');
             e.preventDefault();
             const searchedData = $searchField.value;
-            this.contact.searchItem(searchedData);
+            this.contact.list = this.contact.searchItem(searchedData);
+            e.target.reset();
+            this.renderList();
+
+            $showAll.addEventListener('click', () => {
+                this.contact.list = totalList;
+                this.renderList();
+            });
         });
     }
 }
